@@ -1,79 +1,135 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <!--skip-->
-
-    <title>Haos Capstone Receiver</title>
-
-    <!-- favicon -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/.img/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/.img/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/.img/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/.img/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/.img/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/.img/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/.img/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/.img/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/.img/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/.img/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/.img/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/.img/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/.img/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/.img/favicon/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/.img/favicon/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-
+    <meta charset="UTF-8" />
+    <title>HTML5 Full-Screen Demonstration</title>
+    <style>
+        section:-webkit-full-screen {
+            float: none;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            border: 0 none;
+            background-color: #000000;
+        }
+        
+        section:-moz-full-screen {
+            float: none;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            border: 0 none;
+        }
+        
+        section:-ms-full-screen {
+            float: none;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            border: 0 none;
+        }
+        
+        section:-o-full-screen {
+            float: none;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            border: 0 none;
+        }
+        
+        section:full-screen {
+            float: none;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            border: 0 none;
+        }
+        
+        #demoContainer {
+            position: absolute;
+            margin: auto;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/easyrtc/easyrtc.js"></script>
     <script type="text/javascript" src="js/stream_receiver.js"></script>
 </head>
 
 <body>
-    <div id="container">
 
-<!-- 
--->
+    <section id="fullscreen">
 
-        <div id="main">
-            <div id="demoContainer">
-                <div id="connectControls">
-                    <button id="connectButton" onclick="connect()">Connect</button>
-                    <button id="hangupButton" disabled="disabled" onclick="hangup()">Hangup</button>
-<!-- 
--->
-                    <div id="iam">Not yet connected...</div>
-                    <H3> Video sources</h3>
-                    <div id="videoSrcBlk">
-
+        <div id="container">
+            <div id="main">
+                <div id="demoContainer">
+                    <div id="connectControls">
+                        <button id="connectButton" onclick="connect()">Connect Full Screen</button>
                     </div>
 
                     <br />
-<!-- 
--->
-                    <strong>Connected users:</strong>
                     <div id="otherClients"></div>
                 </div>
 
                 <div id="videos">
-                    <h3>Local media streams</h3>
-                    <div autoplay="autoplay" id="localVideos"></div>
-                    <h3>Remote media streams</h3>
                     <div autoplay="autoplay" id="remoteVideos"></div>
-                    <div id="acceptCallBox">
-<!-- 
--->
-                        <!-- Should be initially hidden using CSS -->
-                        <div id="acceptCallLabel"></div>
-                        <button id="callAcceptButton">Accept</button>
-                        <button id="callRejectButton">Reject</button>
-                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+
+
+
+
+        <script>
+            var e = document.getElementById("fullscreen");
+
+            e.onclick = function() {
+
+                if (RunPrefixMethod(document, "FullScreen") || RunPrefixMethod(document, "IsFullScreen")) {
+                    
+                    //RunPrefixMethod(document, "CancelFullScreen");
+                }
+                else {
+                    RunPrefixMethod(e, "RequestFullScreen");
+                }
+
+            }
+
+            var pfx = ["webkit", "moz", "ms", "o", ""];
+
+            function RunPrefixMethod(obj, method) {
+
+                var p = 0,
+                    m, t;
+                while (p < pfx.length && !obj[m]) {
+                    m = method;
+                    if (pfx[p] == "") {
+                        m = m.substr(0, 1).toLowerCase() + m.substr(1);
+                    }
+                    m = pfx[p] + m;
+                    t = typeof obj[m];
+                    if (t != "undefined") {
+                        pfx = [pfx[p]];
+                        return (t == "function" ? obj[m]() : obj[m]);
+                    }
+                    p++;
+                }
+
+            }
+        </script>
+
 </body>
 
 </html>
